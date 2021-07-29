@@ -65,8 +65,10 @@ $ roslaunch rtabmap_ros rtabmap.launch \
     approx_sync:=false
 ```
 
-Option 2. with rosbag of real data
-For example, with the rosbag for Auckland team
+Option 2. with rosbag of real data 
+For example, with the rosbag for Auckland team 
+https://www.dropbox.com/s/iwjptvk6bhw2o9y/test.bag?dl=0
+https://www.dropbox.com/s/8et9w5zc3z3maa1/test.mp4?dl=0
 ```
 roslaunch rtabmap_ros rtabmap.launch \
     rtabmap_args:="--delete_db_on_start" \
