@@ -1,21 +1,17 @@
 robot_arm_dev
 ===
-
-ROS packages for the UR5 Robot with a Robotiq gripper
+Development of robotic grasping.  
+For the simulation of the UR5 Robot with a Robotiq gripper. The simulation mimics the real experimental setup.
 
 ## Installation
 
-This will assume that you already have a catkin workspace. Go to the source directory of the workspace
-  ```
-  $ cd src
-  ```
 Clone this and the gripper (robotiq) repositories
   ```
   $ git clone https://github.com/yongming-qin/robot_arm_dev
   ```
 Build using catkin tools
   ```
-  $ cd ..
+  $ cd robot_arm_dev/grasping_ws
   $ catkin build
   $ source devel/setup.bash
   ```
@@ -52,3 +48,31 @@ An example of sending joints values to the robot can be executed as follows:
   $ rosrun ur5_gazebo send_joints.py
   ```
 To change the values of the joints, the file `send_joints.py` must be modified.
+
+## SLAM to estimate the pose of the end effector
+Install Rtabmap SLAM package based on https://github.com/introlab/rtabmap_ros
+
+
+
+Option 1. with Gazebo simulation  
+```
+$ roslaunch ur5_gazebo ur5_cubes.launch
+$ roslaunch rtabmap_ros rtabmap.launch \
+    rtabmap_args:="--delete_db_on_start" \
+    depth_topic:=/camera/depth/image_raw \
+    rgb_topic:=/camera/rgb/image_raw \
+    camera_info_topic:=/camera/rgb/camera_info \
+    approx_sync:=false
+```
+
+Option 2. with rosbag of real data
+For example, with the rosbag for Auckland team
+```
+roslaunch rtabmap_ros rtabmap.launch \
+    rtabmap_args:="--delete_db_on_start" \
+    depth_topic:=/camera/aligned_depth_to_color/image_raw \
+    rgb_topic:=/camera/color/image_raw \
+    camera_info_topic:=/camera/color/camera_info \
+    approx_sync:=false \
+    frame_id:=camera_color_optical_frame\
+```
